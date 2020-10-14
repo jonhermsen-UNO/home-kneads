@@ -2,11 +2,12 @@ from django.db import models
 
 
 class Species(models.Model):
-    species_name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    icon = models.CharField(max_length=15)
     weight_uom = models.CharField(max_length=3)
 
     def __str__(self):
-        return self.species_name
+        return self.name
 
 
 class Animal(models.Model):
