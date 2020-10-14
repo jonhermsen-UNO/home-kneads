@@ -1,0 +1,58 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+    {% if adoption_list %}
+    <section class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+        {% for animal in adoption_list %}
+        <div class="col mb-4">
+            <div class="card h-100">
+                <div class="embed-responsive embed-responsive-4by3">
+                    <div class="embed-responsive-item text-center text-muted bg-light">
+                        {% if animal.image %}
+                        <a href="/media/{{ animal.image }}">
+                            <img src="/media/{{ animal.image }}" class="h-100">
+                        </a>
+                        {% else %}
+                        <i class="fas fa-{{ animal.species.icon }} fa-5x my-5"></i><br>
+                        <div class="lead">Image pending...</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body border-top bg-light d-flex justify-content-between align-items-center">
+                    <h2 class="h4 my-0">{{ animal.name }}</h2>
+                    <i class="fas fa-{{ animal.species.icon }} text-muted float-right"></i>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="text-muted">Species</span>
+                        <span>{{ animal.species.name }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="text-muted">Gender</span>
+                        <span>{{ animal.is_male|yesno:'Male,Female' }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="text-muted">Age</span>
+                        <span>{{ animal.birth_date|timesince }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="text-muted">Weight</span>
+                        <span>{{ animal.weight }} {{ animal.species.weight_uom }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="text-muted">Adoption fee</span>
+                        <span>${{ animal.adoption_fee }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+    {% else %}
+    <div class="alert alert-success text-center">
+        <p class="my-5"><i class="fas fa-paw fa-5x"></i></p>
+        <h2 class="font-weight-bold">Every animal has been adopted!</h2>
+        <p class="h3">But more will need a home soon,<br>so please check back later.</p>
+    </div>
+    {% endif %}
+{% endblock %}
