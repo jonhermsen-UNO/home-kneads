@@ -18,4 +18,4 @@ class Animal(models.Model):
     is_male = models.BooleanField()
 
     def __str__(self):
-        return "%s the %s" % (name, species)
+        return "%s the %s" % (self.name, self.species)
