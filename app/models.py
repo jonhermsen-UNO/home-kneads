@@ -19,6 +19,7 @@ class Animal(models.Model):
     weight = models.DecimalField(max_digits=5, decimal_places=2)
     adoption_fee = models.DecimalField(max_digits=5, decimal_places=2)
     is_male = models.BooleanField()
+    image = models.ImageField(upload_to='animals')
 
     def __str__(self):
         return "%s the %s" % (self.name, self.species)
