@@ -12,7 +12,7 @@ class Species(models.Model):
 class Animal(models.Model):
     species = models.ForeignKey(Species, on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
-    birth_date = models.DateTimeField()
+    birth_date = models.DateField()
     weight = models.DecimalField(max_digits=5, decimal_places=2)
     adoption_fee = models.DecimalField(max_digits=5, decimal_places=2)
     is_male = models.BooleanField()
