@@ -45,3 +45,14 @@ class AdoptUpdate(generic.UpdateView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Update Adoption Record'
         return context
+
+
+class AdoptDelete(generic.DeleteView):
+    template_name = 'app/adopt-delete.html'
+    success_url = '/adopt/'
+    model = Animal
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Remove Adoption Record'
+        return context
