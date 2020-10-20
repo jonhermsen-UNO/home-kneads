@@ -3,7 +3,6 @@ from django.db import models
 
 class Species(models.Model):
     name = models.CharField(max_length=50)
-    icon = models.CharField(max_length=15)
     weight_uom = models.CharField(max_length=3)
 
     def __str__(self):
@@ -20,4 +19,4 @@ class Animal(models.Model):
     image = models.ImageField(upload_to='animals')
 
     def __str__(self):
-        return "%s the %s" % (self.name, self.species)
+        return "%s the %s" % (self.name, self.species.name)
