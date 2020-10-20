@@ -7,7 +7,7 @@ class Species(models.Model):
     weight_uom = models.CharField(max_length=3)
 
     def __str__(self):
-        return self.name
+        return "%s (%s)" % (self.name, self.weight_uom)
 
 
 class Animal(models.Model):
