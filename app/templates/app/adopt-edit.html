@@ -1,0 +1,16 @@
+{% extends "app/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button type="submit" class="btn btn-primary mr-2">
+        <i class="fas fa-pen fa-fw"></i>
+        {{ page_title|lower|capfirst }}
+    </button>
+    <a href="{% url 'app:adopt' %}" class="btn btn-outline-secondary">Cancel</a>
+    {% endbuttons %}
+</form>
+{% endblock %}
