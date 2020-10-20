@@ -26,20 +26,20 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span class="text-muted">Species</span>
-                        <span>{{ animal.species.name }}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
                         <span class="text-muted">Gender</span>
                         <span>{{ animal.is_male|yesno:'Male,Female' }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span class="text-muted">Age</span>
-                        <span>{{ animal.birth_date|timesince }}</span>
+                        <span class="text-muted">Species</span>
+                        <span>{{ animal.species.name }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <span class="text-muted">Weight</span>
                         <span>{{ animal.weight }} {{ animal.species.weight_uom }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="text-muted">Age</span>
+                        <span>{{ animal.birth_date|timesince }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <span class="text-muted">Adoption fee</span>
