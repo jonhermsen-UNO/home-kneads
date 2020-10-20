@@ -7,5 +7,6 @@ from . import views
 app_name = 'app'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('adopt/', views.AdoptView.as_view(), name='adopt')
+    path('adopt/', views.AdoptView.as_view(), name='adopt'),
+    path('adopt/edit/', views.AdoptCreate.as_view(), name='create'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

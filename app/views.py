@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 
 from .models import Animal, Species
+from . import forms
 
 
 def index(request):
@@ -19,4 +20,16 @@ class AdoptView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Adoptable Pets'
+        return context
+
+
+class AdoptCreate(generic.CreateView):
+    template_name = 'app/adopt-edit.html'
+    form_class = forms.AdoptForm
+    success_url = '/adopt/'
+    model = Animal
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Create Adoption Record'
         return context

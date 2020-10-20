@@ -1,5 +1,14 @@
 {% extends "app/base.html" %}
 
+{% block title %}
+<div class="d-flex justify-content-between align-items-center">
+    {{ page_title }}
+    <a href="{% url 'app:create' %}" class="btn btn-outline-success">
+        <i class="fas fa-plus fa-fw"></i>
+    </a>
+</div>
+{% endblock %}
+
 {% block content %}
     {% if adoption_list %}
     <section class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
