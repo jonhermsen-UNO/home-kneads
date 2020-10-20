@@ -13,8 +13,10 @@
                             <img src="/media/{{ animal.image }}" class="h-100">
                         </a>
                         {% else %}
-                        <i class="fas fa-{{ animal.species.icon }} fa-5x my-5"></i><br>
-                        <div class="lead">No image available</div>
+                        <div class="h-100 d-flex flex-column justify-content-center">
+                            <i class="fas fa-paw fa-5x"></i><br>
+                            <div class="lead">No image available</div>
+                        </div>
                         {% endif %}
                     </div>
                 </div>
