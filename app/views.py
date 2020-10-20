@@ -33,3 +33,15 @@ class AdoptCreate(generic.CreateView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Create Adoption Record'
         return context
+
+
+class AdoptUpdate(generic.UpdateView):
+    template_name = 'app/adopt-edit.html'
+    form_class = forms.AdoptForm
+    success_url = '/adopt/'
+    model = Animal
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Update Adoption Record'
+        return context
