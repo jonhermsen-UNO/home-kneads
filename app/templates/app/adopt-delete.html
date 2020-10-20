@@ -1,0 +1,30 @@
+{% extends "app/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="alert alert-warning text-center">
+        <h2 class="alert-heading mb-3">Warning! You are about to remove an adoption record.</h2>
+        <div class="mb-3">
+            {% if object.image %}
+            <img src="/media/{{ object.image }}" class="img-fluid img-thumbnail" style="width:250px">
+            {% else %}
+            <i class="fas fa-paw fa-5x mb-3"></i>
+            {% endif %}
+            <p class="h1 my-0">{{ object.name }}</p>
+        </div>
+        <p class="lead mb-3">
+            Are you sure that you want to remove this adoption record?<br>
+            This action cannot be undone.
+        </p>
+        {% buttons %}
+        <button type="submit" class="btn btn-outline-warning mr-2">
+            <i class="fas fa-trash fa-fw"></i>
+            {{ page_title|lower|capfirst }}
+        </button>
+        <a href="{% url 'app:adopt' %}" class="btn btn-secondary">Cancel</a>
+        {% endbuttons %}
+    </div>
+</form>
+{% endblock %}
