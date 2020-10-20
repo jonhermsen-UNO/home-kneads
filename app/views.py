@@ -8,7 +8,7 @@ from . import forms
 def index(request):
     context = {
         'page_title': 'Welcome to Home Kneads!',
-        'species_list': Species.objects.all(),
+        'species_list': Species.objects.all().order_by('name'),
     }
     return render(request, 'app/index.html', context)
 
@@ -23,7 +23,7 @@ class AdoptView(generic.ListView):
             queryset = Animal.objects.filter(species__name__iexact = self.kwargs['species'])
         else:
             queryset = Animal.objects.all()
-        return queryset.order_by('species', 'birth_date', 'name')
+        return queryset.order_by('species__name', 'birth_date', 'name')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

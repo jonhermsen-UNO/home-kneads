@@ -19,7 +19,7 @@ class AdoptForm(forms.ModelForm):
 
     # Override the default behavior for fields that need special handling.
     species = forms.ModelChoiceField(
-        queryset = Species.objects.all(),
+        queryset = Species.objects.all().order_by('name'),
         label = 'Species',
         widget = forms.RadioSelect(),
     )
