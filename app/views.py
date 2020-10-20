@@ -6,7 +6,10 @@ from . import forms
 
 
 def index(request):
-    context = { 'page_title': 'Hello, World!' }
+    context = {
+        'page_title': 'Welcome to Home Kneads!',
+        'species_list': Species.objects.all(),
+    }
     return render(request, 'app/index.html', context)
 
 

@@ -1,5 +1,14 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-    Hello, World!
+    <div class="card-deck text-center">
+        {% for species in species_list %}
+        <a href="{% url 'app:adopt_species' species.name|lower %}" class="card text-light bg-dark">
+            <div class="card-body">
+                <i class="fas fa-{{ species.get_icon }} fa-5x"></i>
+            </div>
+            <div class="card-footer">Adopt a {{ species.name|lower }}</div>
+        </a>
+        {% endfor %}
+    </div>
 {% endblock %}
