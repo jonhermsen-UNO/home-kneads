@@ -11,8 +11,6 @@ class Species(models.Model):
 
 
 class Animal(models.Model):
-    ordering = ['species__name', '-birth_date']
-
     species = models.ForeignKey(Species, on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
     birth_date = models.DateField()
