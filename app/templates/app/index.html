@@ -1,7 +1,8 @@
 {% extends "app/base.html" %}
+{% load static %}
 
 {% block content %}
-    <div class="card-deck text-center">
+    <div class="card-deck text-center mb-3">
         {% for species in species_list %}
         <a href="{% url 'app:adopt_species' species.name|lower %}" class="card text-light bg-dark">
             <div class="card-body">
@@ -11,4 +12,21 @@
         </a>
         {% endfor %}
     </div>
+    <section class="jumbotron text-center mb-0" style="background:url({% static '/app/hero-background.jpg' %}) center;background-size:cover;">
+        <div class="lead bg-secondary text-light text-left p-3 mx-5 my-3">
+            <h2 class="mb-3 text-center">Our Mission</h2>
+            <hr class="border-primary">
+            <p>
+                At Home Kneads, our mission is to ensure that every animal that
+                falls under our care finds a forever home. We believe that animals
+                enrich our lives through their presence. So if you find that something
+                is missing in your home, perhaps your <i>home kneads</i> one of our
+                many <a href="{% url 'app:adopt' %}">adoptable pets</a> just as much
+                as they need you!
+            </p>
+            <p class="lead">Please support our mission and adopt today!</p>
+            <hr class="border-primary">
+            <p class="small mb-0">Background photo by Chevanon Photography from Pexels</p>
+        </div>
+    </section>
 {% endblock %}
