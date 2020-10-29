@@ -6,7 +6,7 @@ A simple Django web application for hosting a pet adoption registry.
 
 | Software | Installation |
 | -------- | ------------ |
-| Ubuntu 16.04 LTS+ | [Amazon LightSail](https://aws.amazon.com/getting-started/hands-on/launch-a-virtual-machine/) recommended<br>[Upgrade to EC2](https://aws.amazon.com/lightsail/features/upgrade-to-ec2/) if necessary |
+| Ubuntu 16.04 LTS+ | [Amazon LightSail](https://aws.amazon.com/getting-started/hands-on/launch-a-virtual-machine/) is recommended,<br> which can [upgrade to EC2](https://aws.amazon.com/lightsail/features/upgrade-to-ec2/) if necessary |
 | Python 3.8 | See [troubleshooting](#troubleshooting) |
 | Django 3.1 | `pip3.8 install django` |
 | Django Bootstrap: | `pip3.8 install django-bootstrap4` |
@@ -20,53 +20,72 @@ A simple Django web application for hosting a pet adoption registry.
 ## Installation
 
 1. Install all [required software](#requirements)
-1. If you are using a MySQL database, then create your database instance
+1. Create a MySQL database if MySQL will be used as the backing database:
 
     ```bash
-    # Create a new MySQL database to store application data, for example:
-    > mysql -p root -u
+    # Create a MySQL database.
+    > mysql -u root -p
     mysql> CREATE DATABASE HomeKneadsDB CHARACTER SET utf8;
     # If necessary, create a user with permission to manage the database.
     mysql> CREATE USER 'remote-user'@'%' IDENTIFIED BY '<password>';
     mysql> GRANT ALL PRIVILEGES ON HomeKneadsDB.* TO 'remote-user'@'%';
     mysql> FLUSH PRIVILEGES;
+    mysql> QUIT;
     ```
 
-1. TODO: instructions for installing the project itself
-1. [Configure](#configuration) your instance of *Home Kneads*, as desired
-1. Prepare your instance of *Home Kneads* for deployment
+1. Install the web application on the server:
 
     ```bash
-    # Prepare the database for use.
+    # Install the web application on the server.
+    > mkdir /home/django
+    > cd /home/django
+    > git clone https://github.com/jonhermsen-UNO/homekneads.git
+    # Fix file permissions needed by the web application.
+    > chown -R www-data:www-data ./homekneads
+    > find ./homekneads -type d -exec chmod 750 {} \;
+    > find ./homekneads -type f -exec chmod 640 {} \;
+    ```
+
+1. [Configure](#configuration) the *Home Kneads* instance as desired
+1. Prepare the *Home Kneads* instance for deployment:
+
+    ```bash
+    # Initialize the database and its tables.
+    > cd /home/django/homekneads
     > python3.8 manage.py migrate --settings=local_settings
     # Create an admin user for the Django admin pages (optional).
     > python3.8 manage.py createsuperuser --settings=local_settings
+    # Manually add the desired species to the Species table.
+    > python3.8 manage.py shell --settings=local_settings
+    >>> from app.models import Species
+    >>> s = Species(name="Cat", weight_uom="lbs")
+    >>> s.save()
+    >>> s = Species(name="Dog", weight_uom="lbs")
+    >>> s.save()
+    >>> s = Species(name="Bird", weight_uom="oz")
+    >>> s.save()
+    >>> exit()
+    ```
 
-1. Deploy your instance of *Home Kneads*
+1. Deploy the *Home Kneads* instance:
 
     ```bash
-    # TODO: add deployment instructions
+    # Note that the firewall might need a new rule to allow port 8000.
+    > python3.8 manage.py runserver 0.0.0.0:8000 --settings=local_settings
     ```
 
 ## Configuration
 
 1. TODO: config instructions for Django application
-1. Verify that your instance of *Home Kneads* is functional
-
-    ```bash
-    # Test from your local machine.
-    > python3.8 manage.py runserver --settings=local_settings
-    # Test from your web server.
-    # Note that you may need to allow port 8000 in your firewall.
-    > python3.8 manage.py runserver 0.0.0.0:8000 --settings=local_settings
-    ```
 
 ## Troubleshooting
 
 * I cannot install `python3.8` on my version of Ubuntu
-  * See these instructions for [installing Python 3.8](https://websiteforstudents.com/how-to-install-python-3-8-on-ubuntu-18-04-16-04/)
-  * The PPA method is recommended
+  * Run `sudo apt-get install libsqlite3-dev` first if SQLite will be used as the backing database
+  * See these instructions for [installing Python 3.8](https://websiteforstudents.com/how-to-install-python-3-8-on-ubuntu-18-04-16-04/) on older versions of Ubuntu
+    * The manual method is required for `pip3.8` to work
 * I cannot install `mysqlclient` on my version of Ubuntu
-  * Run `sudo apt-get install python3.8-dev libmysqlclient-dev`
-  * Retry `pip3.8 install mysqlclient`
+  * Run `sudo apt-get install libmysqlclient-dev`
+  * Rerun `pip3.8 install mysqlclient`
+    * If necessary, install `python3.8-dev` using the PPA method from `python3.8` troubleshooting
   * See [installing the MySQL client](https://stackoverflow.com/questions/42152729/error-installing-mysqlclient-on-ubuntu-16-04-using-pip-and-python-3-6) for more information
