@@ -37,11 +37,12 @@ A simple Django web application for hosting a pet adoption registry.
 
     ```bash
     # Install the web application on the server.
+    > sudo su
     > mkdir /home/django
     > cd /home/django
     > git clone https://github.com/jonhermsen-UNO/homekneads.git
     # Fix file permissions needed by the web application.
-    > chown -R www-data:www-data ./homekneads
+    > chown -R username:username ./homekneads
     > find ./homekneads -type d -exec chmod 750 {} \;
     > find ./homekneads -type f -exec chmod 640 {} \;
     ```
@@ -69,14 +70,61 @@ A simple Django web application for hosting a pet adoption registry.
 
 1. Deploy the *Home Kneads* instance:
 
-    ```bash
-    # Note that the firewall might need a new rule to allow port 8000.
-    > python3.8 manage.py runserver 0.0.0.0:8000 --settings=local_settings
-    ```
+    * Ubuntu 20.04 LTS+: see the Django documentation on [Apache's mod_wsgi module](https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/)
+    * Ubuntu 18.04 LTS, and earlier:
+
+      ```bash
+      # Run the web application using Django's development server (not recommended).
+      # Note that a firewall exception might be needed to use port 8000, otherwise the
+      # Apache proxy and proxy_http modules can be used to route traffic over port 80.
+      > python3.8 manage.py runserver 0.0.0.0:8000 --settings=local_settings
+      ```
 
 ## Configuration
 
-1. TODO: config instructions for Django application
+1. Create the configuration file for the *Home Kneads* instance:
+
+    ```bash
+    # Create a configuration file to overwrite defaults.
+    > cd /home/django/homekneads/
+    > touch ./local_settings.py
+    > chmod 640 ./local_settings.py
+    ```
+
+1. Use a preferred text editor to configure `./local_settings.py` as desired:
+
+    ```python
+    # Example configuration file.
+    import os
+    from homekneads.settings import *
+
+    # Overwrite the secret key for production.
+    SECRET_KEY = 'some-super-secret-key'
+
+    # Overwrite debug settings for production.
+    DEBUG = False
+    ALLOWED_HOSTS = ['example.com', 'localhost', '127.0.0.1']
+
+    # Overwrite the database configuration for production.
+    # This example replaces SQLite with MySQL.
+    DATABASES = {
+      'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'HomeKneadsDB',
+        'USER': 'remote-user',
+        'PASSWORD': "password",
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'OPTIONS': {
+          'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        },
+      }
+    }
+
+    # Add a new configuration to set the root directory of static files.
+    MEDIA_ROOT = os.path.join('/var/www/', 'media')
+    STATIC_ROOT = os.path.join('/var/www/', 'static')
+    ```
 
 ## Troubleshooting
 
